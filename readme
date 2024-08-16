@@ -1,0 +1,9 @@
+# Enable IP forwarding
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+iptables -t nat -A PREROUTING -p tcp --dport 8000 -m statistic --mode random --probability 0.5 -j DNAT --to-destination 172.17.0.3:8000
+iptables -t nat -A PREROUTING -p tcp --dport 8000 -j DNAT --to-destination 172.17.0.4:8000
+
+sudo apt-get install apache2 -y
+systemctl start apache2
+systemctl stop apache2
